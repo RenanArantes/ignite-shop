@@ -1,3 +1,20 @@
+import { styled } from "../styles"
+
+const Button = styled('button', {
+  backgroundColor: '$rocketseat',
+  borderRadius: 8,
+  border: 0,
+  padding: '4px 8px',
+
+  span: {
+    fontWeight: "bolder"
+  },
+
+  '&:hover': {
+    filter: 'brightness(4)'
+  }
+})
+
 export default function Home() {
-  return <h1>Hello Next</h1>
+  return <Button onClick={() => alert('AAA')}><span>Hello</span> Next</Button>
 }
