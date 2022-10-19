@@ -7,6 +7,7 @@ import 'keen-slider/keen-slider.min.css';
 import { stripe } from "../lib/stripe"
 import { GetStaticProps } from "next"
 import Stripe from "stripe"
+import { formatPrice } from "../utils/formatPrice";
 
 interface HomeProps {
   products : {
@@ -22,7 +23,7 @@ interface HomeProps {
 export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 1.85,
+      perView: 2.3,
       spacing: 48
     }
   })
@@ -61,8 +62,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount / 100,
-
+      price: formatPrice(price.unit_amount),
     }
   })
 
