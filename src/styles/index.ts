@@ -24,7 +24,13 @@ export const {
       md: '1.125rem',
       lg: '1.25rem',
       xl: '1.5rem',
-      '2xl:': '2rem',
+      '2xl': '2rem',
+    },
+    transitions: {
+      fast: '0.2s',
+      medium: '0.6s',
+      slow: '1s',
+      veryslow: '2s'
     }
   },
 })
