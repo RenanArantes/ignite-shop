@@ -1,24 +1,67 @@
-import { useRouter } from "next/router"
 import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 
-import shirt from '../../assets/shirts/shirt1.png'
 import Image from "next/future/image"
+import { GetStaticPaths, GetStaticProps } from "next"
+import { stripe } from "../../lib/stripe"
+import { formatPrice } from "../../utils/formatPrice"
+import Stripe from "stripe"
 
-export default function Product() {
-  const { query } = useRouter()
+interface ProductProps {
+  product: {
+    id: string
+    name: string
+    imageUrl: string
+    price: string
+    description: string
+  }
+}
+
+export default function Product({ product }: ProductProps) {
 
   return (
     <ProductContainer>
       <ImageContainer>
-        <Image src={shirt} alt="" width={520} height={480}/>
+        <Image src={product.imageUrl} alt="" width={520} height={480}/>
       </ImageContainer>
       <ProductDetails>
-        <h1>Camisa X</h1>
-        <span>R$ 99,90</span>
-        <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
+        <h1>{product.name}</h1>
+        <span>{product.price}</span>
+        <p>{product.description}</p>
 
         <button>Comprar Agora</button>
       </ProductDetails>
     </ProductContainer>
   )
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { id: 'prod_MdsfjWc6cmGt8Z'}}
+    ],
+    fallback: false
+  }
+}
+
+export const getStaticProps: GetStaticProps<any, { id: string}> = async ({ params }) => {
+  const productId = params.id
+
+  const product = await stripe.products.retrieve(productId, {
+    expand: ['default_price'],
+  })
+
+  const price = product.default_price as Stripe.Price
+
+  return {
+    props: {
+      product: {
+        id: product.id,
+        name: product.name,
+        imageUrl: product.images[0],
+        price: formatPrice(price.unit_amount),
+        description: product.description
+      }
+    },
+    revalidate: 60 * 60 * 1
+  }
 }
