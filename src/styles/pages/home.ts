@@ -40,10 +40,15 @@ export const Product = styled('div', {
     justifyContent: 'space-between',
 
     backgroundColor: 'rgba(0,0,0,0.6)',
-    transform: 'translateY(110%)',
-    opacity: 0,
-    transition: 'all 0.3s ease-in-out',
+    //transform: 'translateY(110%)',
+    opacity: 1,
+    //transition: 'all 0.3s ease-in-out',
     
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+
     'strong': {
       fontSize: '$lg',
       color: '$gray100'
@@ -63,4 +68,16 @@ export const Product = styled('div', {
       opacity: 1
     }
   }
+})
+
+export const ButtonCartContainer = styled('div', {
+  width: 56,
+  height: 56,
+  borderRadius: 6,
+
+  svg: {
+    margin: 'auto',
+  },
+
+  backgroundColor: '$green500'
 })
