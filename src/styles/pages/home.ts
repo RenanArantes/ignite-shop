@@ -40,9 +40,9 @@ export const Product = styled('div', {
     justifyContent: 'space-between',
 
     backgroundColor: 'rgba(0,0,0,0.6)',
-    //transform: 'translateY(110%)',
+    transform: 'translateY(110%)',
     opacity: 1,
-    //transition: 'all 0.3s ease-in-out',
+    transition: 'all 0.3s ease-in-out',
     
     div: {
       display: 'flex',
