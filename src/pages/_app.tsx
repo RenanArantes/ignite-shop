@@ -4,10 +4,13 @@ import { globalStyles } from "../styles/global"
 import logoImg from '../assets/logo.svg'
 import { Container, Header, NotificationBadge } from "../styles/pages/app"
 import Image from "next/future/image"
+import { useState } from "react"
 
 globalStyles()
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [notifications, setNotifications] = useState(8)
+
 
   return (
     <Container>
@@ -17,9 +20,11 @@ export default function App({ Component, pageProps }: AppProps) {
           display: 'inline-block'
         }}>
           <Handbag size={24} color={'#8D8D99'} weight="bold"/>
-          <NotificationBadge>
-            <p>1</p>
+          {notifications > 0 ? (
+            <NotificationBadge>
+            <p>{notifications}</p>
           </NotificationBadge>
+          ): <></>}
         </div>
       </Header>
       <Component {...pageProps} />
