@@ -6,8 +6,9 @@ import { stripe } from "../../lib/stripe"
 import { formatPrice } from "../../utils/formatPrice"
 import Stripe from "stripe"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Head from "next/head"
+import { CartContext } from "../../contexts/CartContext"
 
 interface ProductProps {
   product: {
@@ -23,6 +24,8 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
   const { isFallback } = useRouter()
+
+  const { addProductOnCart } = useContext(CartContext)
 
   if(isFallback) {
     console.log('fallback true')
@@ -62,7 +65,7 @@ export default function Product({ product }: ProductProps) {
           <span>{product.price}</span>
           <p>{product.description}</p>
 
-          <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar Agora</button>
+          <button disabled={isCreatingCheckoutSession} onClick={() => addProductOnCart(product)}>Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>

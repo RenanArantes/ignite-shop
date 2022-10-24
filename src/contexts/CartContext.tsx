@@ -40,13 +40,28 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }
 
   function addProductOnCart(newProduct: Product) {
-    setCart((state) => {
-      return ({
-        products: [...state.products,newProduct],
-        quantity: state.quantity += 1})
-    })
+    const checkIfProductAlreadyExistsOnCart = cart.products.find(product => newProduct.id === product.id)
 
-    console.log('produto adicionado ao carrinho')
+    if(checkIfProductAlreadyExistsOnCart) {
+      setCart((state) => {
+        return ({
+          products: [...state.products],
+          quantity: state.quantity + 1})
+      })
+
+      console.log('produto já existente no carrinho, apenas a quantidade foi adicionada')
+    } else {
+      setCart((state) => {
+        return ({
+          products: [...state.products,newProduct],
+          quantity: state.quantity + 1})
+      })
+
+      console.log('novo produto adicionado ao carrinho')
+    }
+
+    
+
   }
 
   function removeProductOfCart(productId: string) {
