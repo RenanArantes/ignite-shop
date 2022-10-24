@@ -7,6 +7,7 @@ import Image from "next/future/image"
 import { useState } from "react"
 import { CartBarSide } from "../components/CartBarSide"
 import { CartContextProvider } from "../contexts/CartContext"
+import Link from "next/link"
 
 globalStyles()
 
@@ -27,10 +28,13 @@ export default function App({ Component, pageProps }: AppProps) {
         </div>
       <Container>   
         <Header>
-          <Image src={logoImg} alt=""/>
+          <Link href="/">
+            <Image src={logoImg} alt=""/>
+          </Link>
           <div 
             style={{
-              display: 'inline-block'
+              display: 'inline-block',
+              cursor: 'pointer'
             }}
             onClick={() => setIsCartOpen(!isCartOpen)}
           >

@@ -3,12 +3,17 @@ import { X } from 'phosphor-react'
 import Image from "next/future/image";
 
 import shirt1 from '../assets/shirts/shirt1.png'
+import { CartContext } from "../contexts/CartContext";
+import { useContext } from "react";
 
 interface CartBarSideProps {
   closeCart: () => void
 }
 
 export function CartBarSide({ closeCart }: CartBarSideProps)  {
+  const { cart, removeProductOfCart } = useContext(CartContext)
+  const { products } = cart
+
   return (
     <CartBarSideContainer>
 
@@ -17,36 +22,20 @@ export function CartBarSide({ closeCart }: CartBarSideProps)  {
         <h1>Sacola de compras</h1>
 
       <CartProducts>
-        <ProductContainer>
-          <ImageContainer>
-            <Image src={shirt1} alt="" width={94} height={94}/>
-          </ImageContainer>
-          <div>
-            <h3>Camisa Maratona Explorer</h3>
-            <p>R$ 79,90</p>
-            <RemoveItemButton type="button">Remover</RemoveItemButton>
-          </div>
-        </ProductContainer>
-        <ProductContainer>
-          <ImageContainer>
-            <Image src={shirt1} alt="" width={94} height={94}/>
-          </ImageContainer>
-          <div>
-            <h3>Camisa Maratona Explorer</h3>
-            <p>R$ 79,90</p>
-            <RemoveItemButton type="button">Remover</RemoveItemButton>
-          </div>
-        </ProductContainer>
-        <ProductContainer>
-          <ImageContainer>
-            <Image src={shirt1} alt="" width={94} height={94}/>
-          </ImageContainer>
-          <div>
-            <h3>Camisa Maratona Explorer</h3>
-            <p>R$ 79,90</p>
-            <RemoveItemButton type="button">Remover</RemoveItemButton>
-          </div>
-        </ProductContainer>
+        {products.length > 0 ? products.map(product => {
+          return (
+            <ProductContainer key={product.id}>
+                <ImageContainer>
+                  <Image src={product.imageUrl} alt="" width={94} height={94}/>
+                </ImageContainer>
+                <div>
+                  <h3>{product.name}</h3>
+                  <p>{product.price}</p>
+                  <RemoveItemButton type="button" onClick={() => removeProductOfCart(product.id)}>Remover</RemoveItemButton>
+                </div>
+            </ProductContainer>
+          )
+        }) : (<h1>Carrinho Vazio!!!!</h1>)}
       </CartProducts>
     </CartBarSideContainer>
   )

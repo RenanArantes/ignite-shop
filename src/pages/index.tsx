@@ -63,7 +63,7 @@ export default function Home({ products }: HomeProps) {
                       <strong>{product.name}</strong>
                       <span>{product.price}</span>
                     </div>
-                    <ButtonCartContainer type="button" onClick={() => addProductOnCart} >
+                    <ButtonCartContainer type="button" onClick={() => addProductOnCart(product)} >
                       <Handbag size={32} color="white" weight="bold"/>
                     </ButtonCartContainer>
                   </footer>
