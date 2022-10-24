@@ -6,6 +6,7 @@ import { Container, Header, NotificationBadge } from "../styles/pages/app"
 import Image from "next/future/image"
 import { useState } from "react"
 import { CartBarSide } from "../components/CartBarSide"
+import { CartContextProvider } from "../contexts/CartContext"
 
 globalStyles()
 
@@ -20,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <>
+    <CartContextProvider>
       <div style={isCartOpen === true ?  {display: 'block'} : {display: 'none'}}>
           <CartBarSide closeCart={handleCloseCart} />
         </div>
@@ -43,7 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
         </Header>
         <Component {...pageProps} />
       </Container>
-    </>
+    </CartContextProvider>
   )
 }
 

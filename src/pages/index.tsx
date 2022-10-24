@@ -11,6 +11,15 @@ import Stripe from "stripe"
 import { formatPrice } from "../utils/formatPrice";
 import Link from "next/link";
 import Head from "next/head";
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+
+interface Product {
+  id: string
+  name: string
+  imageUrl: string
+  price: string
+}
 
 interface HomeProps {
   products : {
@@ -31,6 +40,10 @@ export default function Home({ products }: HomeProps) {
     }
   })
 
+  const { loadProducts, addProductOnCart } = useContext(CartContext)
+
+  loadProducts(products)
+
   return (
     <>
       <Head>
@@ -50,7 +63,7 @@ export default function Home({ products }: HomeProps) {
                       <strong>{product.name}</strong>
                       <span>{product.price}</span>
                     </div>
-                    <ButtonCartContainer>
+                    <ButtonCartContainer type="button" onClick={() => addProductOnCart} >
                       <Handbag size={32} color="white" weight="bold"/>
                     </ButtonCartContainer>
                   </footer>
@@ -70,7 +83,7 @@ export const getStaticProps: GetStaticProps = async () => {
     expand: ['data.default_price']
   })
 
-  const products = response.data.map(product => {
+  const products = response.data.map<Product>(product => {
     const price = product.default_price as Stripe.Price
 
     return {

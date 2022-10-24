@@ -70,10 +70,12 @@ export const Product = styled('div', {
   }
 })
 
-export const ButtonCartContainer = styled('div', {
+export const ButtonCartContainer = styled('button', {
   width: 56,
   height: 56,
   borderRadius: 6,
+  border: 'none',
+  cursor: 'pointer',
 
   svg: {
     margin: 'auto',
