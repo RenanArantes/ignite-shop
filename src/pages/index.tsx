@@ -11,23 +11,18 @@ import Stripe from "stripe"
 import { formatPrice } from "../utils/formatPrice";
 import Link from "next/link";
 import Head from "next/head";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "../contexts/CartContext";
 
 interface Product {
   id: string
   name: string
   imageUrl: string
-  price: string
+  price: number
 }
 
 interface HomeProps {
-  products : {
-    id: string
-    name: string
-    imageUrl: string
-    price: string
-  }[]
+  products : Product[]
 }
 
 //os valores de getServerSideProps ficam em props do componente page
@@ -42,7 +37,9 @@ export default function Home({ products }: HomeProps) {
 
   const { loadProducts, addProductOnCart } = useContext(CartContext)
 
-  loadProducts(products)
+  useEffect(() =>{
+    loadProducts(products)
+  }, [])
 
   return (
     <>
@@ -61,7 +58,7 @@ export default function Home({ products }: HomeProps) {
                   <footer>
                     <div>
                       <strong>{product.name}</strong>
-                      <span>{product.price}</span>
+                      <span>{formatPrice(product.price)}</span>
                     </div>
                     <ButtonCartContainer type="button" onClick={() => addProductOnCart(product)} >
                       <Handbag size={32} color="white" weight="bold"/>
@@ -90,7 +87,7 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: formatPrice(price.unit_amount),
+      price: price.unit_amount,
     }
   })
 

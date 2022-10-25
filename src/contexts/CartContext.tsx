@@ -4,12 +4,13 @@ interface Product {
   id: string
   name: string
   imageUrl: string
-  price: string
+  price: number
 }
 
 interface Cart {
   products: Product[]
-  quantity: number 
+  quantity: number
+  totalValue: number 
 }
 
 interface CartContextType {
@@ -30,7 +31,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   const [products, setProducts] = useState({} as Product[])
   const [cart, setCart] = useState({
     products: [],
-    quantity: 0
+    quantity: 0,
+    totalValue: 0
   } as Cart)
 
   function loadProducts(products: Product[]) {
@@ -46,7 +48,9 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       setCart((state) => {
         return ({
           products: [...state.products, newProduct],
-          quantity: state.quantity + 1})
+          quantity: state.quantity + 1,
+          totalValue: state.totalValue += newProduct.price
+        })
       })
 
       console.log('Produto adicionado ao carrinho')
@@ -58,12 +62,14 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }
 
   function removeProductOfCart(productId: string) {
+    const productToBeRemoved = cart.products.find(product => productId !== product.id)
     const cartProductsWithoutRemovedOne = cart.products.filter(product => productId !== product.id)
 
     setCart((state) => {
       return ({
         products: cartProductsWithoutRemovedOne,
-        quantity: state.quantity -= 1
+        quantity: state.quantity -= 1,
+        totalValue: state.totalValue -= productToBeRemoved.price
       })
     })
 

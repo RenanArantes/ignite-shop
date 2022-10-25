@@ -5,6 +5,7 @@ import Image from "next/future/image";
 import shirt1 from '../assets/shirts/shirt1.png'
 import { CartContext } from "../contexts/CartContext";
 import { useContext } from "react";
+import { formatPrice } from "../utils/formatPrice";
 
 interface CartBarSideProps {
   closeCart: () => void
@@ -12,7 +13,7 @@ interface CartBarSideProps {
 
 export function CartBarSide({ closeCart }: CartBarSideProps)  {
   const { cart, removeProductOfCart } = useContext(CartContext)
-  const { products } = cart
+  const { products, quantity, totalValue } = cart
 
   return (
     <CartBarSideContainer>
@@ -30,12 +31,20 @@ export function CartBarSide({ closeCart }: CartBarSideProps)  {
                 </ImageContainer>
                 <div>
                   <h3>{product.name}</h3>
-                  <p>{product.price}</p>
+                  <p>{formatPrice(product.price)}</p>
                   <RemoveItemButton type="button" onClick={() => removeProductOfCart(product.id)}>Remover</RemoveItemButton>
                 </div>
             </ProductContainer>
           )
         }) : (<h1>Carrinho Vazio!!!!</h1>)}
+        <div>
+          <span>
+            <label>Quantidade: </label>{quantity}
+          </span>
+          <span>
+            <strong>Valor total: {formatPrice(totalValue)}</strong>
+          </span>
+        </div>
       </CartProducts>
     </CartBarSideContainer>
   )
