@@ -62,7 +62,7 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{formatPrice(product.price)}</span>
           <p>{product.description}</p>
 
           <button disabled={isCreatingCheckoutSession} onClick={() => addProductOnCart(product)}>Colocar na sacola</button>
@@ -96,7 +96,7 @@ export const getStaticProps: GetStaticProps<any, { id: string}> = async ({ param
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: formatPrice(price.unit_amount),
+        price: price.unit_amount,
         description: product.description,
         defaultPriceId: price.id,
       }

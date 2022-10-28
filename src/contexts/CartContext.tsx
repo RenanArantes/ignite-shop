@@ -62,14 +62,14 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
   }
 
   function removeProductOfCart(productId: string) {
-    const productToBeRemoved = cart.products.find(product => productId !== product.id)
+    const productToBeRemoved = cart.products.find(product => productId === product.id)
     const cartProductsWithoutRemovedOne = cart.products.filter(product => productId !== product.id)
 
     setCart((state) => {
       return ({
         products: cartProductsWithoutRemovedOne,
-        quantity: state.quantity -= 1,
-        totalValue: state.totalValue -= productToBeRemoved.price
+        quantity: state.quantity - 1,
+        totalValue: state.totalValue - productToBeRemoved.price
       })
     })
 
