@@ -1,5 +1,5 @@
 import Image from "next/future/image";
-import { ImageContainer, SuccessContainer } from "../styles/pages/success";
+import { ImageColetionContainer, ImageContainer, SuccessContainer } from "../styles/pages/success";
 
 import shirt1 from '../assets/shirts/shirt1.png'
 import Link from "next/link";
@@ -27,15 +27,15 @@ export default function Success({ products, customerName, quantity }: SuccessPro
         <meta name="robots" content="noindex"/>
       </Head>
       <SuccessContainer>
-        {products.map(product => {
-          return (
-            <div key={product.name}>
-              <ImageContainer>
-                <Image src={product.imageUrl} alt="" width={120 } height={110}/>
-              </ImageContainer>
-            </div>
-            )
-          })}
+        <ImageColetionContainer>
+          {products.map(product => {
+            return (
+                <ImageContainer key={product.name}>
+                  <Image src={product.imageUrl} alt="" width={120} height={110}/>
+                </ImageContainer>
+              )
+            })}
+        </ImageColetionContainer>
         <h1>Compra efetuada!</h1>
         <p>
           Uhuul <strong>{customerName}</strong>, sua compra de {quantity} {quantity > 1 ? ('camisetas') : ('camiseta')} já está a caminho da sua casa.
@@ -67,9 +67,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query}) => {
   const sessionProducts = session.line_items.data//[0].price.product //as Stripe.Product
 
   const products = sessionProducts.map(p => p.price.product as Stripe.Product)   
-
-  console.log('products')
-  console.log(products)
 
   const formatedProducts = products.map(product => {
     return {

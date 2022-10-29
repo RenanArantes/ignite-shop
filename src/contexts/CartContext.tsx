@@ -53,11 +53,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
           totalValue: state.totalValue += newProduct.price
         })
       })
-
-      console.log('Produto adicionado ao carrinho')
     } else {
       alert('Esse produto já está no carrinho')
-      console.log('Esse produto já está no carrinho')
     } 
 
   }
@@ -73,8 +70,6 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         totalValue: state.totalValue - productToBeRemoved.price
       })
     })
-
-    console.log('produto removido do carrinho')
   }
 
   return (

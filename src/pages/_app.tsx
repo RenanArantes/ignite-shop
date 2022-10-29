@@ -15,8 +15,6 @@ globalStyles()
 export default function App({ Component, pageProps }: AppProps) {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
-  console.log(`O carrinho está aberto? ${isCartOpen}`)
-
   function handleOpenCart() {
     setIsCartOpen(state => !state)
   }

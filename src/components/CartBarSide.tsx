@@ -29,22 +29,15 @@ export function CartBarSide({ closeCart }: CartBarSideProps)  {
         }
       })
 
-      console.log('pricesIds no botao')
-      console.log(pricesIds)
-
       const response = await axios.post('/api/cartCheckout', {
         pricesIds: pricesIds
       })
 
-      console.log(response)
-
       const { checkoutUrl} = response.data
 
-      console.log(checkoutUrl)
       window.location.href= checkoutUrl
       console.log('redirecionado')
     } catch(err) {
-      console.log(err)
       alert('Falha ao redirecionar ao checkout!!')
     }
   }

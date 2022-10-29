@@ -36,21 +36,26 @@ export const SuccessContainer = styled('main', {
   }
 })
 
-export const ImageContainer = styled('div', {
+export const ImageColetionContainer = styled('div', {
   width: '100%',
-  maxWidth: 130,
-  height: 145,
-  background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
-  borderRadius: 8,
-  padding: '0.25rem',
   marginTop: '4rem',
   marginBottom: '2rem',
 
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+})
 
+export const ImageContainer = styled('div', {
+  maxWidth: 130,
+  height: 130,
+  background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
+  borderRadius: 9999,
+  padding: '0.25rem',
+  
+  marginLeft: -50,
+  boxShadow: '-10px 4px 50px 4px black',
   img: {
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
 })

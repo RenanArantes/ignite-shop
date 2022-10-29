@@ -43,7 +43,7 @@ export default function Product({ product }: ProductProps) {
 
       console.log(checkoutUrl)
       window.location.href= checkoutUrl
-      console.log('redirecionado')
+      console.log('redirecionando. . .')
     } catch(err) {
       // Conectar com uma ferramenta de observabilidade (Datadog/ Sentry)
 
