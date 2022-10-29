@@ -19,18 +19,33 @@ export function CartBarSide({ closeCart }: CartBarSideProps)  {
   const { products, quantity, totalValue } = cart
 
   async function handleFinishOrder() {
-    console.log(products[0].defaultPriceId)
-
     try {
       setIsCreatingCheckoutSession(true)
-      const response = await axios.post('api/cartCheckout', {
-        priceId: products[0].defaultPriceId,
+
+      const pricesIds = products.map(product => {
+        return {
+          price: product.defaultPriceId,
+          quantity: 1
+        }
+      })
+
+      console.log('pricesIds no botao')
+      console.log(pricesIds)
+
+      const response = await axios.post('/api/cartCheckout', {
+        pricesIds: pricesIds
       })
 
       console.log(response)
 
+      const { checkoutUrl} = response.data
+
+      console.log(checkoutUrl)
+      window.location.href= checkoutUrl
+      console.log('redirecionado')
     } catch(err) {
-      alert('Falha ao redirecionar ao checkout')
+      console.log(err)
+      alert('Falha ao redirecionar ao checkout!!')
     }
   }
 
