@@ -1,27 +1,43 @@
-import { CartBarSideContainer, CartProducts, ImageContainer, ProductContainer, RemoveItemButton } from "../styles/components/CartBarSide";
+import { CartBarSideContainer, CartProducts, CartValueContainer, ImageContainer, ProductContainer, RemoveItemButton } from "../styles/components/CartBarSide";
 import { X } from 'phosphor-react'
 import Image from "next/future/image";
 
 import shirt1 from '../assets/shirts/shirt1.png'
 import { CartContext } from "../contexts/CartContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { formatPrice } from "../utils/formatPrice";
+import axios from "axios";
 
 interface CartBarSideProps {
   closeCart: () => void
 }
 
 export function CartBarSide({ closeCart }: CartBarSideProps)  {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
+
   const { cart, removeProductOfCart } = useContext(CartContext)
   const { products, quantity, totalValue } = cart
 
+  async function handleFinishOrder() {
+    console.log(products[0].defaultPriceId)
+
+    try {
+      setIsCreatingCheckoutSession(true)
+      const response = await axios.post('api/cartCheckout', {
+        priceId: products[0].defaultPriceId,
+      })
+
+      console.log(response)
+
+    } catch(err) {
+      alert('Falha ao redirecionar ao checkout')
+    }
+  }
+
   return (
     <CartBarSideContainer>
-
         <X size={32} weight="bold" onClick={closeCart}/>
-
         <h1>Sacola de compras</h1>
-
       <CartProducts>
         {products.length > 0 ? products.map(product => {
           return (
@@ -36,16 +52,20 @@ export function CartBarSide({ closeCart }: CartBarSideProps)  {
                 </div>
             </ProductContainer>
           )
-        }) : (<h1>Carrinho Vazio!!!!</h1>)}
-        <div>
-          <span>
-            <label>Quantidade: </label>{quantity}
-          </span>
-          <span>
-            <strong>Valor total: {formatPrice(totalValue)}</strong>
-          </span>
-        </div>
+        }) : (<ProductContainer>Carrinho Vazio!!!!</ProductContainer>)}
       </CartProducts>
+      <CartValueContainer>
+        <span>
+          <label>Quantidade: </label>{quantity} itens
+        </span>
+        <span>
+          <strong>Valor total: </strong>
+          <strong>{formatPrice(totalValue)}</strong>
+        </span>
+        <button type="button" onClick={() => handleFinishOrder()}>
+          Finalizar Compra
+        </button>
+      </CartValueContainer>
     </CartBarSideContainer>
   )
 }

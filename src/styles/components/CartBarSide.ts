@@ -8,7 +8,7 @@ export const CartBarSideContainer = styled('div', {
   position: 'fixed !important',
   zIndex: 2,
   overflow: "auto",
-  padding: 24,
+  padding: 48,
 
   svg: {
     float: 'right',
@@ -21,11 +21,13 @@ export const CartBarSideContainer = styled('div', {
     fontWeight: 700,
     fontSize: 20,
     lineHeight: '160%',
-  }
+  },
 })
 
 export const CartProducts = styled('div',{
   marginTop: 32,
+  
+  minHeight: 580,
 })
 
 export const ProductContainer = styled('div',{
@@ -78,4 +80,45 @@ export const RemoveItemButton = styled('button', {
     transition:"$medium" ,
     color: '$green300',
   }
+})
+
+export const CartValueContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+
+  button: {
+    marginTop: 'auto',
+    backgroundColor: '$green500',
+    border: 0,
+    color: '$white',
+    borderRadius: 8,
+    padding: '1.25rem',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    fontSize: '$md',
+    
+    '&:disabled': {
+      opacity: 0.6,
+      cursor: 'not-allowed'
+    },
+    
+    '&:hover(:disabled):hover': {
+      transition: "$medium",
+      backgroundColor: '$green300'
+    }
+  },
+
+  span: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: 7,
+    fontSize: 18
+  },
+
+  'strong:last-child': {
+    fontSize: 25,
+    fontWeight: 700,
+    lineHeight: '140%'
+  }
+  
 })
